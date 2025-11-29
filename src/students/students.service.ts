@@ -1,0 +1,15 @@
+/* eslint-disable prettier/prettier */
+import { Injectable } from '@nestjs/common';
+import { Student, StudentDocument } from './student.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+
+@Injectable()
+export class StudentsService {
+    constructor(@InjectModel(Student.name) private studentModel: Model<StudentDocument>) {}
+
+    async createStudent(data: Partial<Student>): Promise<Student> {
+        const newStudent = new this.studentModel(data);
+        return newStudent.save();
+    }
+}
